@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Changa:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap");
+$body-font-family: "Markazi Text";
+$title-font: "Changa";
+$cairo-font: "Cairo";
+.headerTitle {
+  font-family: $title-font, sans-serif !important;
+}
+.v-application {
+  font-family: $body-font-family, sans-serif !important;
+  .headerTitle {
+    font-family: $title-font, sans-serif !important;
+  }
+}
+.full-width {
+  width: -webkit-fill-available;
+}
+.scrollable {
+  overflow-y: scroll;
+}
+.scrollable::-webkit-scrollbar {
+  width: 5px !important;
+  background-color: #f5f5f5;
+}
+.scrollable::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.44, rgb(122, 153, 217)),
+    color-stop(0.72, rgb(73, 125, 189)),
+    color-stop(0.86, rgb(69, 105, 214))
+  );
+}
+.text-font-cairo {
+  font-family: $cairo-font, sans-serif !important;
+}
+.noteBody {
+  max-height: 70px;
+  overflow-y: scroll;
+}
+.scrollableNotesSheet {
+  max-height: 90vh;
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+.scrollableNotesSheet .row {
+  max-height: 80.3vh;
+  overflow-y: scroll;
+}
+.scrollableNotesSheet .row::-webkit-scrollbar {
+  width: 5px !important;
+  background-color: #f5f5f5;
+}
+.scrollableNotesSheet .row::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.scrollableNotesSheet .row::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: linear-gradient(
+    to top,
+    #3f51b5,
+    #3748a7,
+    #2f3f99,
+    #27368b,
+    #1f2e7e
+  );
+}
+.font-size-35 {
+  font-size: 35px;
+}
