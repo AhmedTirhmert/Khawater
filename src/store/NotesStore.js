@@ -39,7 +39,7 @@ const mutations = {
     Vue.set(state.publicNotes, payload.noteKey, payload.noteContent);
   },
   setCategories(state, payload) {
-    Vue.set(state.Categories, payload.categoryKey, payload.categoryTitle);
+    Vue.set(state.Categories, payload.categoryKey, payload.category);
   },
   setProjects(state, payload) {
     Vue.set(state.Projects, payload.projectKey, payload.project);
@@ -56,6 +56,20 @@ const mutations = {
   },
   resetCurrentUserCats(state) {
     state.Categories = {};
+  },
+  decrementProCount(state, payload) {
+    Vue.set(
+      state.Projects[payload],
+      "notesCount",
+      state.Projects[payload].notesCount - 1
+    );
+  },
+  incrementProCount(state, payload) {
+    Vue.set(
+      state.Projects[payload],
+      "notesCount",
+      state.Projects[payload].notesCount + 1
+    );
   },
   // setPages(state, payload) {
   //   state.pagination.Pages = payload;
@@ -117,7 +131,10 @@ const actions = {
         response.data.Categories.forEach((element) => {
           commit("setCategories", {
             categoryKey: element.id,
-            categoryTitle: element.title,
+            category: {
+              title: element.title,
+              notesCount: element.notes_count,
+            },
           });
         });
       })
@@ -170,16 +187,16 @@ const actions = {
             loadingKey: "addNewNoteLoading",
             loadingState: false,
           });
-          let newNote = response.data.newNote;
-          newNote["author"] = rootState.AuthStore.currentUser.infos;
+          let CreatedNote = response.data.newNote;
           commit("setCurrentUserNotes", {
             noteKey: response.data.newNote.id,
-            noteContent: newNote,
+            noteContent: CreatedNote,
           });
-          if (newNote.public) {
+          commit("incrementProCount", CreatedNote.project_id);
+          if (CreatedNote.public) {
             commit("setPublicNotes", {
               noteKey: response.data.newNote.id,
-              noteContent: newNote,
+              noteContent: CreatedNote,
             });
           }
         }
@@ -239,7 +256,7 @@ const actions = {
         });
       });
   },
-  deleteNote({ commit }, payload) {
+  deleteNote({ commit, state }, payload) {
     commit("setLoadings", {
       loadingKey: "deleteNote",
       loadingState: true,
@@ -257,6 +274,7 @@ const actions = {
           responseMessage: response.data.Message,
           type: "success",
         });
+        commit("decrementProCount", state.currentUserNotes[payload].project_id);
         commit("deleteNote", payload);
       })
       .catch((err) => {

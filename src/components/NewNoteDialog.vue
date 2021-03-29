@@ -114,7 +114,7 @@
                   hide-details
                   :items="Categories"
                   v-model="newNoteData.category"
-                  item-text="title"
+                  item-text="title.title"
                   item-value="key"
                   label="إختر صنف"
                   outlined

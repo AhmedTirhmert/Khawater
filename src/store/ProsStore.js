@@ -44,7 +44,10 @@ const actions = {
           "NotesStore/setProjects",
           {
             projectKey: response.data.createdProject.id,
-            projectName: response.data.createdProject.name,
+            project: {
+              name: response.data.createdProject.name,
+              notesCount: 0,
+            },
           },
           { root: true }
         );

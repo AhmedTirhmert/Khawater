@@ -23,16 +23,26 @@
     <v-list dense class="scrollable" max-height="300">
       <v-list-item-group v-model="SelectedCat" color="primary">
         <v-list-item
-          v-for="(category, key) in localCats"
+          class="text-subtitle-2 font-weight-bold"
+          v-for="(category, key, index) in localCats"
           :key="key"
           @click="$emit('filterNotesByCategory', key)"
         >
           <v-list-item-icon>
-            <v-icon>mdi-collage</v-icon>
+            <v-icon>mdi-format-list-bulleted-square</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="category"></v-list-item-title>
+            <v-list-item-title v-text="category.title"></v-list-item-title>
           </v-list-item-content>
+          <v-list-item-icon class="my-auto">
+            <div class="py-auto">
+              <v-chip x-small color="grey lighten-2"
+                ><span class="">
+                  {{ index == 0 ? totalNotes : category.notesCount }}
+                </span>
+              </v-chip>
+            </div>
+          </v-list-item-icon>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -58,6 +68,13 @@ export default {
   },
   computed: {
     ...mapGetters("NotesStore", ["currentUserCatgeories"]),
+    totalNotes() {
+      let totalNotes = 0;
+      for (const pro in this.currentUserCatgeories) {
+        totalNotes += this.currentUserCatgeories[pro].notesCount;
+      }
+      return totalNotes;
+    },
   },
   methods: {},
   filters: {},

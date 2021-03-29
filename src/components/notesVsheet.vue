@@ -19,7 +19,7 @@
         <v-icon dark> mdi-plus </v-icon>
       </v-btn>
     </div>
-    <v-divider class="mb-3 mx-2 dividerShadow"  />
+    <v-divider class="mb-3 mx-2 dividerShadow" />
 
     <template>
       <v-row class="mx-0 mb-6">
@@ -38,17 +38,16 @@
                 <div class="d-flex flex-column">
                   {{ note.title }}
                   <div class="text-caption grey--text">
-                    <b class="indigo--text font-italic text--darken-4">{{
-                      note.author.name
-                    }}</b>
+                    <b
+                      class="indigo--text font-italic text--darken-4 text-font-cairo font-weight-black"
+                      >{{ note.author.name }}</b
+                    >
                     <span class="black--text font-weight-black mx-1"> | </span>
 
                     <span class="font-italic">
                       {{ note.created_at | carbonJs }}
                     </span>
-                    <span class="black--text font-weight-black mx-1">
-                      |{{ index }}
-                    </span>
+                    <span class="black--text font-weight-black mx-1"> | </span>
                     <v-icon v-if="note.public" size="1rem"> mdi-earth </v-icon>
                     <v-icon v-if="!note.public" size="1rem"> mdi-lock </v-icon>
                   </div>

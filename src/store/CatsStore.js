@@ -40,12 +40,15 @@ const actions = {
         commit("setNewCatResponseType", "success");
         commit("setNewCatResponseMessage", response.data.Message);
         commit("setNewCatLoading", false);
-        console.log(response.data.createdCat);
+        console.log(response);
         commit(
           "NotesStore/setCategories",
           {
             categoryKey: response.data.createdCat.id,
-            categoryTitle: response.data.createdCat.title,
+            category: {
+              title: response.data.createdCat.title,
+              notesCount: response.data.createdCat.notes_count,
+            },
           },
           { root: true }
         );

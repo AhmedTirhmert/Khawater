@@ -26,6 +26,7 @@
               border="left"
               type="error"
               dismissible
+              @input="resetAuthError"
             >
               {{ errorMessages.login }}
             </v-alert>
@@ -53,7 +54,6 @@
               v-model="loginUserData.rememberMe"
               label="تذكرني"
               color="teal darken-3"
-              value="error"
               class="mb-1"
             ></v-checkbox>
             <v-btn
@@ -61,8 +61,16 @@
               color="teal darken-3 white--text"
               elevation="3"
               @click="Login"
-              >دخول</v-btn
+              >تسجيل الدخول</v-btn
             >
+          </div>
+          <div class="text-center text-subtitle2 pb-2">
+            أو قم<router-link
+              class="LinkNoUnderLine"
+              :to="{ name: 'Register' }"
+            >
+              بالتسجيل
+            </router-link>
           </div>
         </v-card>
         <!-- </v-sheet> -->
@@ -101,7 +109,7 @@
   </v-container>
 </template>
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 export default {
   name: "Login",
   data: () => {
@@ -122,6 +130,7 @@ export default {
   mounted() {},
   methods: {
     ...mapActions("AuthStore", ["loginUser"]),
+    ...mapMutations("AuthStore", ["resetAuthError"]),
     Login() {
       this.loginUser(this.loginUserData);
     },
@@ -147,3 +156,8 @@ export default {
   },
 };
 </script>
+<style  >
+.LinkNoUnderLine {
+  text-decoration: none;
+}
+</style>

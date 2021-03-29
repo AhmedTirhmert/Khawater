@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row justify="center">
+    <v-row v-if="isEmailVerified" justify="center">
       <v-col cols="12" sm="12" lg="3" md="12">
         <projects
           v-if="isAuthenticated"
@@ -23,34 +23,38 @@
           @editNote="editNote"
           @deleteNote="deleteNote"
         />
+        <new-note-dialog
+          :newNoteDialog="Dialogs.newNote"
+          @setNewDialog="setNewDialog"
+          :Projects="currentUserProjects | toArray"
+          :Categories="currentUserCatgeories | toArray"
+          @showAddProDialog="showAddProDialog"
+          @showAddCatDialog="showAddCatDialog"
+        ></new-note-dialog>
+        <new-cat-dialog
+          :newCat="Dialogs.newCat"
+          @showAddCatDialog="showAddCatDialog"
+        />
+        <new-pro-dialog
+          :newPro="Dialogs.newPro"
+          @showAddProDialog="showAddProDialog"
+        />
+        <edit-note-dialog
+          :editNoteDialog="Dialogs.editNote"
+          @setNewDialog="Dialogs.editNote = false"
+          :Projects="currentUserProjects | toArray"
+          :Categories="currentUserCatgeories | toArray"
+          :selectedNote="selectedNote"
+        />
+        <delete-note-dialog
+          :deleteNoteDialog="Dialogs.deleteNote"
+          :noteToDelete="selectedNote"
+          @closeEditNoteDialog="Dialogs.deleteNote = false"
+          @NoteDeleted="NoteDeleted()"
+        />
       </v-col>
     </v-row>
-    <new-note-dialog
-      :newNoteDialog="Dialogs.newNote"
-      @setNewDialog="setNewDialog"
-      :Projects="currentUserProjects | toArray"
-      :Categories="currentUserCatgeories | toArray"
-    ></new-note-dialog>
-    <new-cat-dialog
-      :newCat="Dialogs.newCat"
-      @showAddCatDialog="showAddCatDialog"
-    />
-    <new-pro-dialog
-      :newPro="Dialogs.newPro"
-      @showAddProDialog="showAddProDialog"
-    />
-    <edit-note-dialog
-      :editNoteDialog="Dialogs.editNote"
-      @setNewDialog="Dialogs.editNote = false"
-      :Projects="currentUserProjects | toArray"
-      :Categories="currentUserCatgeories | toArray"
-      :selectedNote="selectedNote"
-    />
-    <delete-note-dialog
-      :deleteNoteDialog="Dialogs.deleteNote"
-      :noteToDelete="selectedNote"
-      @closeEditNoteDialog="Dialogs.deleteNote = false"
-    />
+    <email-verification :currentUserName="currentUserName" v-else />
   </v-container>
 </template>
 
@@ -73,6 +77,7 @@ export default {
     newProDialog: () => import("../components/NewProjectDialog"),
     editNoteDialog: () => import("../components/EditNoteDialog"),
     deleteNoteDialog: () => import("../components/deleteNoteDialog"),
+    emailVerification: () => import("../components/EmailVerification"),
   },
   data() {
     return {
@@ -112,6 +117,10 @@ export default {
         title: this.locallyStorredNotes[id].title,
       };
     },
+    NoteDeleted() {
+      this.filterByProId(this.Selected.projectId);
+      this.filterByCatId(this.Selected.categoryId);
+    },
   },
   mounted() {
     this.getCurrentUserNotes();
@@ -119,7 +128,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters("AuthStore", ["isAuthenticated"]),
+    ...mapGetters("AuthStore", [
+      "isAuthenticated",
+      "isEmailVerified",
+      "currentUserName",
+    ]),
     ...mapGetters("NotesStore", [
       "currentUserNotes",
       "currentUserCatgeories",

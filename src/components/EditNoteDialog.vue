@@ -97,7 +97,7 @@
                   v-model="passedNote.project_id"
                   :value="passedNote.project_id"
                   selected
-                  item-text="title"
+                  item-text="title.name"
                   item-value="key"
                   label="إختر مشروع"
                   outlined
@@ -112,7 +112,7 @@
                   :items="Categories"
                   v-model="passedNote.category_id"
                   :value="passedNote.category_id"
-                  item-text="title"
+                  item-text="title.title"
                   item-value="key"
                   label="إختر صنف"
                   outlined

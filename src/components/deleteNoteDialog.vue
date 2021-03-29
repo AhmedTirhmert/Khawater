@@ -70,6 +70,7 @@ export default {
     closeDialog() {
       this.response.responseMessage = null;
       this.$emit("closeEditNoteDialog");
+      this.$emit("NoteDeleted");
     },
   },
   computed: {

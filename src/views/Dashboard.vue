@@ -1,20 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col v-if="isAuthenticated" cols="12" sm="12" lg="3" md="12">
-        <projects
-          v-if="isAuthenticated"
-          @filterNotesByProject="filterByProId"
-          @showAddProDialog="showAddProDialog"
-        />
-        <categories
-          @filterNotesByCategory="filterByCatId"
-          v-if="isAuthenticated"
-          @showAddCatDialog="showAddCatDialog"
-        />
-      </v-col>
-
-      <v-col cols="12" sm="12" :lg="isAuthenticated ? '9' : '12'" md="12">
+      <v-col cols="12" sm="12" lg="12" md="12">
         <notes
           :Editable="false"
           :title="'مذكرات عامة'"
@@ -48,8 +35,6 @@
 // @ is an alias to /src
 import { mapGetters, mapActions } from "vuex";
 import Notes from "../components/notesVsheet";
-import Categories from "../components/Categories.vue";
-import projects from "../components/Projects.vue";
 import newNoteDialog from "../components/NewNoteDialog.vue";
 import newCatDialog from "../components/NewCategoryDialog.vue";
 import newProDialog from "../components/NewProjectDialog.vue";
@@ -62,8 +47,6 @@ export default {
   mixins: [filters, CatsMethods, ProsMethods],
   components: {
     Notes,
-    Categories,
-    projects,
     newNoteDialog,
     newCatDialog,
     newProDialog,
